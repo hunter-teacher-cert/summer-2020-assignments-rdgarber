@@ -7,7 +7,13 @@ public class GridImage {
 
     int[][] grid = new int[rows][cols];
 
-    rowPop(grid, 4, 12);
+
+	
+	System.out.println();
+	
+	
+	//Show invert method
+	rowPop(grid, 4, 12);
 	colPop(grid, 2, 5);
 	
 	// before invert
@@ -16,6 +22,27 @@ public class GridImage {
 
 	// after invert
 	invert(grid);
+	print2d(grid);
+    System.out.println();
+	
+	reset(grid);
+	print2d(grid);
+    diagonal(grid, 8,  3, 0, 111);
+	print2d(grid);
+    System.out.println();
+
+	reset(grid);
+	diagonal(grid, 11, 4, 1, 222);
+	print2d(grid);
+    System.out.println();
+	
+	reset(grid);
+	diagonal(grid, 4, 9, 2, 333);
+	print2d(grid);
+    System.out.println();
+	
+	reset(grid);
+	diagonal(grid, 0, 5, 3, 444);
 	print2d(grid);
     System.out.println();
 
@@ -34,7 +61,45 @@ public class GridImage {
     }//end r for
   }//end print2d
 	
+	public static void diagonal(int[][]d2, int r, int c, int direction, int value) {
 	
+		switch(direction)
+		{
+			case 0: // up and to the left
+				while (r>=0 && c >= 0) {  // keep going until outside of array boundary
+					d2[r][c] = value;
+					r--;				// this goes up one row
+					c--;				// this goes left one column
+				 
+				}  // end while 
+				break;
+			case 1: //up and to the right
+				while (r>=0 && c <d2[r].length) {  // keep going until outside of array boundary
+					d2[r][c] = value;
+					r--;				// this goes up one row
+					c++;				// this goes right one column
+				} // end while 
+				break;		
+			case 2: // down and to the left
+				while (r<d2.length && c >=0) {  // keep going until outside of array boundary
+					d2[r][c] = value;
+					r++;				// this goes down one row
+					c--;				// this goes left one column
+				} // end while 
+				break;		
+			case 3:	// down and to the right
+				while (r<d2.length && c <d2[r].length) {  // keep going until outside of array boundary
+					d2[r][c] = value;
+					r++;				// this goes down one row
+					c++;				// this goes right one column
+				}; // end while 
+				break;
+		} // end switch
+		
+	} // end diagonal
+		
+		
+		
 	
   // Goes through d2 and modifies each element so 
   //	All 0s become 255
@@ -50,6 +115,21 @@ public class GridImage {
       }//end c for
     }//end r for
   }//end invert
+	
+  // Goes through d2 and sets each element to a number starting with 0 
+  //	All 0s become 255
+  //	Any non-zero becomes 0
+  public static void reset(int[][] d2) {
+
+    int value = 0;
+	for (int r=0; r < d2.length; r++) {
+      for (int c=0; c < d2[r].length; c++) {
+		d2[r][c] = value;
+	
+        
+      }//end c for
+    }//end r for
+  }//end reset
 	
 	
 	// Populates row r in d2 with value
