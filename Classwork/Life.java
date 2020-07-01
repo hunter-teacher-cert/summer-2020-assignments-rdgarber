@@ -9,31 +9,56 @@ import java.util.*;
 
 
 
+
 class Life{
 
-    public static void main(String[] args) {
-	char[][] board;
-	board = createNewBoard(10,12);
-	initializePattern(board);
-	printBoard(board);
-	countNeighbours(board, 1, 4);
-	countNeighbours(board, 2, 4);
-	countNeighbours(board, 2, 3);
-	countNeighbours(board, 0, 3);
-	countNeighbours(board, 1, 11);
-
+    static final int ROWS = 10;
+	static final int COLS = 12;
+	
+	public static void main(String[] args) {
+		char[][] board;
+		char[][] nextBoard;
+		board = createNewBoard(ROWS, COLS);
+		// First we do it initializing with a simple pattern
+		initializeSimplePattern(board);
+		printBoard(board);
+		nextBoard = generateNextBoard(board);
+		printBoard(nextBoard);
+		nextBoard = generateNextBoard(nextBoard);
+		printBoard(nextBoard);
+		
+		// now we'll do a random pattern
+		initializeRandomPattern(board);
+		printBoard(board);
+		nextBoard = generateNextBoard(board);
+		printBoard(nextBoard);
+		// lets do it 10 iterations
+		for (int i=0; i<10; i++)	{
+			nextBoard = generateNextBoard(nextBoard);
+			printBoard(nextBoard);
+		}	
 	
 	
     }	
 	// Starting pattern for the Game of Life
-	public static void initializePattern(char[][] board) {
+	public static void initializeSimplePattern(char[][] board) {
 		board[1][3] = 'X';
 		board[2][3] = 'X';
 		board[3][3] = 'X';
 				
 		
-	} // end initializePattern
+	} // end initializeSimplePattern
 	
+	// Starting pattern for the Game of Life
+	public static void initializeRandomPattern(char[][] board) {
+		for (int r = 0; r < board.length; r++) {
+			for (int c = 0; c < board[r].length; c++) {
+				if (Math.random() < 0.25)
+					board[r][c] = 'X';   
+			}
+		}		
+		
+	} // end initializePattern
 	
 	/*
       create a new 2D array, fill it with ' ' 
@@ -78,19 +103,19 @@ class Life{
     */
     public static int countNeighbours(char[][] board, int r, int c){
 		int count = 0;  // initialize our counter
-		System.out.printf("For point %d, %d: ",r,c); 
+		//System.out.printf("For point %d, %d: ",r,c); 
 		for (int i=(Math.max(r-1, 0)); i<Math.min(r+2, board.length); i++)
 				for (int j=(Math.max(c-1, 0)); j<Math.min(c+2, board[r].length); j++)	{
-					System.out.printf("Checked %d, %d. ",i,j); 
+					//System.out.printf("Checked %d, %d. ",i,j); 
 					// check for two things:
 					//  1 if square is not blank
 					//  2 make sure we do not count the square itself
 					if (board[i][j] != ' ' && (i != r || j != c))	{  
-						System.out.printf("*Hit* "); 
+						//System.out.printf("*Hit* "); 
 						count++;
 					}
 				}	
-		System.out.printf("Count=%d\n",count);
+		//System.out.printf("Count=%d\n",count);
 		return count;
     }
     
@@ -102,21 +127,32 @@ class Life{
      */
     public static char getNextGenCell(char[][] board,int r, int c){
 	// calculate the number of living neighbors around board[r][c]
-
+		int count = countNeighbours(board, r, c);
 	// determine if board[r][c] is living or dead
 	//    if living and 2 3 neighbors then remain alive
+		if  (board[r][c] != ' ')   {	// cell is alive
+			if (count < 2 || count > 3)
+				return ' ';	// dead!
+		}
+		else {	// cell is dead
 	//    if dead and 3 neighbors then become alive
-	
-	return ' ';
+			if (count == 3)
+				return 'X';
+		}	
+		// otherwise, returns the status quo
+		return board[r][c];
     }
     /*
       scan the board to generate a NEW board with the
       next generation
     */
-    public char[][] generateNextBoard(char[][] board){
-	char newBoard[][] = new char[25][25];
+    public static char[][] generateNextBoard(char[][] board){
+		char newBoard[][] = new char[ROWS][COLS];
 	// fill the new board
-	return newBoard;
+		for (int r = 0; r< board.length; r++)
+			for (int c = 0; c < board[r].length; c++)
+				newBoard[r][c] = getNextGenCell(board, r, c);
+		return newBoard;
     }
     
    
