@@ -4,14 +4,6 @@ import java.util.*;
 
 public class Time{
 
-    public static void main(String[] args) {
-		Time curtime = new Time(11,59, 59.9);
-		printTime(curtime);
-		System.out.println(curtime);
-		
-		
-	} // end main
-	
 	
 	// your time class code goes in here
     private int hour;
@@ -65,4 +57,47 @@ public class Time{
 		System.out.printf("%02d:%02d:%04.1f\n",
 			t.hour, t.minute, t.second);
 	}
+	
+	public boolean equals(Time that) {
+		return this.hour == that.hour
+			&& this.minute == that.minute
+			&& this.second == that.second;
+	}
+	
+	
+	public Time add(Time t2) {
+		Time sum = new Time();
+		sum.hour = this.hour + t2.hour;
+		sum.minute = this.minute + t2.minute;
+		sum.second = this.second + t2.second;
+
+		if (sum.second >= 60.0) {
+			sum.second -= 60.0;
+			sum.minute += 1;
+		}
+		if (sum.minute >= 60) {
+			sum.minute -= 60;
+			sum.hour += 1;
+		}
+		if (sum.hour >= 24)  {
+			sum.hour -= 24;
+		}
+		return sum;
+	}  // end add
+	
+	// updates time - adding seconds
+	public Time increment(double seconds) {
+		int newminutes;
+		
+		newminutes = Math.round((float) (this.second + seconds)/60);
+		this.hour += Math.round((float) (this.minute + newminutes)/60);
+		this.minute += newminutes;
+		this.second += seconds;
+		this.minute %= 60;
+		this.hour %= 12;
+		if (this.hour == 0)
+			this.hour = 12;
+		this.second %= 60;
+		return this;
+	} // end increment
 } // end class Time
