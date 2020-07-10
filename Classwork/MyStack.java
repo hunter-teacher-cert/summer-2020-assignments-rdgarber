@@ -3,18 +3,20 @@ import java.util.*;
   
  public class MyStack{
   // add your internal data structure here
-	private static final int MAX_ELEMENTS = 10;
+	private static final int MAX_STACKSIZE = 10;
 	private int stackCount;
 	private String[] stack;			// where we keep the SuperArray data
 
 	public MyStack(){  // add constructor code
 		
-		this(MAX_ELEMENTS);
+		this(MAX_STACKSIZE);
 		
 	} // end constructor
 	
 	public MyStack(int size){  // add constructor code where set size of stack
 		
+		if (size < 1)
+			throw new StringIndexOutOfBoundsException("Invalid Stack size: " + Integer.toString(size));
 	
 		stack = new String [size];  // set the size of the stack
 		stackCount = 0;
@@ -26,7 +28,7 @@ import java.util.*;
 	public void push(String data){  // add code to push data on to the stack
 		 
 		// check for exceptions
-		if (stackCount == MAX_ELEMENTS)  // the stack is full
+		if (stackCount == MAX_STACKSIZE)  // the stack is full
 			throw new ArrayIndexOutOfBoundsException("Stack Overflow");
 		if (data == null)  // data is empty
 			throw new  NullPointerException("Invalid null data");
@@ -77,4 +79,20 @@ import java.util.*;
 		return stackCount;
 	}
     
+	// build and return a String with all the elements of the 
+	// stack in a printable form
+	public String toString() {
+				
+		String printableString = "";
+		
+		// iterate through each item on the stack starting from the top
+		for (int i = stackCount; i> 0; i--)  {
+			printableString += stack[i-1] + ", ";
+		}	
+		printableString += "[Bottom]";	// tack this on the end
+			
+		return printableString;
+		
+	} // end toString
+	
   }
