@@ -62,7 +62,7 @@ import java.util.*;
 		if (isEmpty())	// nothing to pop
 			return null;
 	
-		return stack[stackCount];    // pop it off the stack and decrement the stack count the count 
+		return stack[stackCount-1];    // pick the top of the stack to return 
 	
 	}	// end top
 
