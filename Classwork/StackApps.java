@@ -32,6 +32,42 @@ import java.util.*;
 		
 	} // end reverse
 	
+	
+	// Returns s in reverse order
+	public static String wordReverse(String s)  	{
+		// need to break up string into words and push the words on the stack
+	
+		String newString = "";
+		String word = "";
+		int strLength;
+		
+		if (s == null)
+			throw new  NullPointerException("Invalid null string");
+		
+			
+		Stack<String> StringStack = new Stack<String>();
+		strLength = s.length();
+		
+		// go through each character until we hit a space or the end	
+		for (int i=0; i<strLength; i++)  {
+			word += s.charAt(i);
+			if (s.charAt(i) == ' ')	{
+				StringStack.push(word);  
+				word = "";	// clear word for the next one
+			}
+		}	
+		// now that we are finished, we need to push the final word onto
+		// the stack (as long as there is somethig there to push)
+		if (word.length() > 0)
+			StringStack.push(word + ' ');
+		
+		// now that the words are on the stack, we will pull them off
+		while (!StringStack.isEmpty())
+			newString += StringStack.pop();
+		
+		return newString;
+	
+	} // end wordReverse	
 	// Returns true or false depending on whether s is a paendrome (can be read the same forward & backward).
 	// Example palendromes:  "racecar" or "able was i ere i saw elba"
 	public static boolean isPalindrome(String s)	{
@@ -139,6 +175,8 @@ import java.util.*;
 		String testString3 = "MarkkraM";
 		String ptestString1 = "(abc{def})";
 		String ptestString2 = "(abc[{def})";
+		String wordString1 = "Frank Lloyd Wright";
+		String wordString2 = "This is a test of the Public Broadcasting Network ";
 
 		
 		
@@ -155,6 +193,8 @@ import java.util.*;
 		System.out.printf("Palindrome check: %s, : %b\n", testString3, isPalindrome(testString3));
 		System.out.printf("Paren check: %s, : %b\n", ptestString1, parenCheck(ptestString1));
 		System.out.printf("Paren check: %s, : %b\n", ptestString2, parenCheck(ptestString2));
+		System.out.printf("Word Reverse check: %s, : %s\n", wordString1, wordReverse(wordString1));
+		System.out.printf("Word Reverse check: %s, : %s\n", wordString2, wordReverse(wordString2));
 
 
 		
