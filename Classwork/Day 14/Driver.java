@@ -38,10 +38,33 @@ public class Driver {
 		t.insert(8);
 		t.insert(3);
 		t.insert(25);
+
+		printallTraverse(t);
 		
+		t.delete(25);
+		printallTraverse(t);
+		t.insert(25);
+		t.delete(3);
+		printallTraverse(t);
+		t.insert(3);
+		t.delete(5);
+		printallTraverse(t);
+		t.insert(5);
+		
+		
+		printallTraverse(t);
+		
+	/*	
+		t.delete(10);
+		printallTraverse(t);
+	*/	
+	}
+	
+	static void printallTraverse(BSTree t)	{
 		t.preorderTraverse();
 		t.postorderTraverse();
 		t.inorderTraverse();
-	
-	}
+		
+		
+	}	
 }	
